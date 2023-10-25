@@ -3,10 +3,10 @@ import {createStackNavigator} from "@react-navigation/stack"
 import React,{useState,useEffect} from "react"
 import {firebase} from  "./config"
 
-import Dashboard from './screens/Dashboard'
-import Login from './screens/Login'
+
 import Header from "./coponents/Header"
-import Registration from "./screens/Registration"
+import BottomTabNav from './navigation/bottomTabNav';
+import {Login,Registration} from './screens/index'
 
 const Stack = createStackNavigator();
 
@@ -34,16 +34,7 @@ function App(){
         <Stack.Screen
             name="Login"
             component={Login}
-            options={{
-              headerTitle: () => <Header/>,
-              headerStyle:{
-                height:50,
-                backgroundColor: '#F2E9E4',
-               
-               
-              }
-
-            }}
+            options={{headerShown:false}}
         />
          <Stack.Screen
             name="Registration"
@@ -57,6 +48,7 @@ function App(){
               }
 
             }}
+           
         />
 
       </Stack.Navigator>
@@ -64,40 +56,13 @@ function App(){
   }
   return(
     <Stack.Navigator>
-       <Stack.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{
-              headerTitle: () => <Header name="MyTickets"/>,
-              headerStyle:{
-                height:150,
-                borderBottomLeftRadius:50,
-                borderBottomRightRadius:50,
-                backgroundColor: '#F2E9E4',
-                shadowColor:'#000',
-                elevation: 25
-              }
-
-            }}
-        />
-         {/* <Stack.Screen
-            name="Scanner"
-            component={Scanner}
-            options={{
-              headerTitle: () => <Header name="MyTickets"/>,
-              headerStyle:{
-                height:150,
-                borderBottomLeftRadius:50,
-                borderBottomRightRadius:50,
-                backgroundColor: '#00e4d0',
-                shadowColor:'#000',
-                elevation: 25
-              }
-
-            }}
-        /> */}
-        
+      <Stack.Screen
+        name="Bottom Navigation"
+        component={BottomTabNav}
+        options={{headerShown:false}}
+      />
     </Stack.Navigator>
+  
   );
 }
 
