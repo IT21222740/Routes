@@ -35,7 +35,7 @@ const Registration = () => {
                 customerType,
             });
     
-            navigation.navigate('Bottom Navigation'); // Redirect to the login page
+            navigation.navigate('Bottom Navigation'); 
         } catch (error) {
             alert(error.message);
         }
