@@ -108,7 +108,7 @@ export const updateCreditAndAddScannedData = async (intData, navigation, setUser
       setUserData(updatedUsers);
 
       // Redirect to the dashboard after a successful update
-      navigation.navigate('Dashboard');
+      navigation.navigate('Bottom Navigation');
 
       
     }

@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { firebase } from '../config';
 import Styles from "../Styles/Styles";
+
 const Registration = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
@@ -20,19 +21,21 @@ const Registration = () => {
 
         try {
             await firebase.auth().createUserWithEmailAndPassword(email, password);
-
-            // Store additional user data in Firestore
-            const db = firebase.firestore();
-            const usersCollection = db.collection('users');
-
+    
+            // Get a reference to the Realtime Database
+            const database = firebase.database();
+    
             // You can customize the data structure as needed
-            usersCollection.doc(firebase.auth().currentUser.uid).set({
+            const userId = firebase.auth().currentUser.uid;
+            const usersRef = database.ref('users/' + userId);
+    
+            usersRef.set({
                 name,
                 email,
                 customerType,
             });
-
-            navigation.navigate('Dashboard'); // Redirect to the login page
+    
+            navigation.navigate('Bottom Navigation'); // Redirect to the login page
         } catch (error) {
             alert(error.message);
         }
@@ -84,7 +87,7 @@ const Registration = () => {
                         secureTextEntry={true}
                     />
                 </View>
-                <View style={Styles. inputContainer}>
+                <View style={Styles.inputContainer}>
                     <Picker
                         selectedValue={customerType}
                         onValueChange={(value) => setCustomerType(value)}
@@ -101,9 +104,7 @@ const Registration = () => {
                 </TouchableOpacity>
             </ScrollView>
         </View>
-        
     );
 }
-
 
 export default Registration;
