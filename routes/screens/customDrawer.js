@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Slider, Text, Icon } from '@rneui/themed';
+import call from 'react-native-phone-call'
+import { Feather } from '@expo/vector-icons';
 
-const CustomDrawer = () => {
+const CustomDrawer = ({ onClose }) => {
   const [value, setValue] = useState(0);
 
   const interpolate = (start, end) => {
@@ -20,18 +22,26 @@ const CustomDrawer = () => {
   const emergencyLabels = ['None', 'Normal', 'Intermediate', 'High'];
 
   const handleSave = () => {
-    // Implement the logic to save the Emergency level value
-    // You can use AsyncStorage, state management, or any other method to store the value
-    // For this example, we'll just print the value
-    console.log(`Emergency level saved: ${emergencyLabels[value]}`);
+    const selectedValue = emergencyLabels[value];
+
+    // Call the onClose function and pass the selectedValue
+    onClose(selectedValue);
   };
 
   const handleCancel = () => {
     setValue(0);
   };
 
+  const makeCall = (passedNumber) => {
+    const args = {
+      number: passedNumber,
+      prompt: true
+    }
+    call(args).catch(console.error)
+  }
+
   return (
-    <>
+    <View style={styles.drawer}>
       <View>
         <Text style={styles.Header}>THIS IS FOR EMERGENCY</Text>
       </View>
@@ -71,11 +81,63 @@ const CustomDrawer = () => {
               <Button color="#ff5c5c" title="Cancel" style={styles.button} />
             </View>
           </TouchableOpacity>
+
+          <View style={styles.callBox}>
+            <Text style={styles.callBoxLabel}>Emergency Call:</Text>
+          </View>
+          
+          <View style={{ textAlign: 'left', paddingTop: 35, flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => makeCall('119')}>
+              <View style={{ backgroundColor: '#9A8C98', flexDirection: 'row', alignItems: 'center',height:50,width:270 }}>
+                <View style={{ backgroundColor: 'white', padding: 5 }}>
+                  <Feather name="phone-call" size={40} color="black" />
+                </View>
+                <Text style={styles.callNumber}>119-Emergency Police</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          
+          <View style={{ textAlign: 'left', paddingTop: 35, flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => makeCall('110')}>
+              <View style={{ backgroundColor: '#9A8C98', flexDirection: 'row', alignItems: 'center',height:50,width:270 }}>
+                <View style={{ backgroundColor: 'white', padding: 5 }}>
+                  <Feather name="phone-call" size={40} color="black" />
+                </View>
+                <Text style={styles.callNumber}>110-Fire Brigade</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          
+          <View style={{ textAlign: 'left', paddingTop: 35, flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => makeCall('114')}>
+              <View style={{ backgroundColor: '#9A8C98', flexDirection: 'row', alignItems: 'center',height:53,width:272 }}>
+                <View style={{ backgroundColor: 'white', padding: 5,height:53 }}>
+                  <Feather name="phone-call" size={40} color="black" />
+                </View>
+                <Text style={styles.callNumber}>114-Reporting Information on Explosives</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          
+          <View style={{ textAlign: 'left', paddingTop: 35, flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => makeCall('1929')}>
+              <View style={{ backgroundColor: '#9A8C98', flexDirection: 'row', alignItems: 'center',height:50,width:270 }}>
+                <View style={{ backgroundColor: 'white', padding: 5 }}>
+                  <Feather name="phone-call" size={40} color="black" />
+                </View>
+                <Text style={styles.callNumber}>1929-Child Protection</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{padding:30}}>
+          </View>
         </View>
       </View>
-    </>
+    </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   contentView: {
@@ -85,7 +147,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   subHeader: {
-    backgroundColor: '#2089dc',
+    backgroundColor: '#9A8C98',
     color: 'white',
     textAlign: 'center',
     paddingVertical: 5,
@@ -113,6 +175,26 @@ const styles = StyleSheet.create({
   button: {
     color: 'white',
   },
+  callBox: {
+    alignItems: 'center',
+  },
+  callBoxLabel: {
+    paddingTop: 30,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textDecorationStyle: 'double',
+    textDecorationLine: 'underline',
+    marginBottom: 10,
+  },
+  callNumber: {
+    fontSize: 20,
+    color: 'blue',
+    marginBottom: 5,
+  },
+  drawer:{
+    backgroundColor:'#E9D9D0'
+  }
+
 });
 
 export default CustomDrawer;
