@@ -5,7 +5,7 @@ import React from "react";
 const Header = (props)=> {
     return(
         <View style = {{marginLeft:15}}>
-            <Text style = {{fontWeight:'bold',fontSize : 28}}>Dashboard</Text>
+            <Text style = {{fontWeight:'bold',fontSize : 28,marginTop:50}}>Dashboard</Text>
         </View>
     )
 }

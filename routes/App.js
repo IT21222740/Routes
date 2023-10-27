@@ -7,6 +7,7 @@ import {firebase} from  "./config"
 import Header from "./coponents/Header"
 import BottomTabNav from './navigation/bottomTabNav';
 import {Login,Registration} from './screens/index'
+import Dashboard from './screens/Dashboard'
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,11 @@ function App(){
         component={BottomTabNav}
         options={{headerShown:false}}
       />
+       <Stack.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={{headerShown:false}}
+        />
     </Stack.Navigator>
   
   );
