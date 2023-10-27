@@ -11,7 +11,7 @@ const Registration = () => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [customerType, setCustomerType] = useState('local'); // Default to 'local'
+    const [customerType, setCustomerType] = useState('Passenger');
 
     const registerUser = async () => {
         if (password !== confirmPassword) {
@@ -33,6 +33,8 @@ const Registration = () => {
                 name,
                 email,
                 customerType,
+                coins:50,
+                share_counts:0
             });
     
             navigation.navigate('Bottom Navigation'); 
