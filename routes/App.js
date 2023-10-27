@@ -8,6 +8,8 @@ import Header from "./coponents/Header"
 import BottomTabNav from './navigation/bottomTabNav';
 import {Login,Registration} from './screens/index'
 import Dashboard from './screens/Dashboard'
+import Scanner from "./screens/Scanner"
+import Feedback from './screens/Feedback'
 
 const Stack = createStackNavigator();
 
@@ -66,6 +68,16 @@ function App(){
             name="Dashboard"
             component={Dashboard}
             options={{headerShown:false}}
+        />
+         <Stack.Screen
+            name="Scanner"
+            component={Scanner}
+            options={{headerShown:false}}
+        />
+        <Stack.Screen
+           name="Feedback"
+           component={Feedback}
+          
         />
     </Stack.Navigator>
   
