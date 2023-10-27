@@ -10,6 +10,7 @@ import {Login,Registration} from './screens/index'
 import Dashboard from './screens/Dashboard'
 import Scanner from "./screens/Scanner"
 import Feedback from './screens/Feedback'
+import Favourites from './screens/Favourites'
 
 const Stack = createStackNavigator();
 
@@ -78,6 +79,10 @@ function App(){
            name="Feedback"
            component={Feedback}
           
+        />
+        <Stack.Screen
+          name="Favourites"
+          component={Favourites}
         />
     </Stack.Navigator>
   

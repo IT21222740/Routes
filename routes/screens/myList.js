@@ -48,6 +48,10 @@ const MyList = () => {
     navigation.navigate('Scanner')
   }
 
+  const navigateTofavourites = ()=>{
+    navigation.navigate('Favourites')
+  }
+
   return (
     <View>
       <ScrollView>
@@ -79,14 +83,17 @@ const MyList = () => {
       </View>
       {userData.customerType === 'Passenger' && (
         <View>
-           <TouchableOpacity onPress={navigateToScanner} style= {Styles.button}>
+           <TouchableOpacity onPress={navigateToScanner} style= {Styles.buttonProfile}>
                  <Text style={{fontSize:25, color:'#FFF'}}>Share My experience</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={navigateTofavourites} style= {Styles.buttonProfile}>
+                 <Text style={{fontSize:25, color:'#FFF'}}>My Favourites</Text>
             </TouchableOpacity>
         </View>
               
       )}
           {userData.customerType === 'Driver' && (
-               <TouchableOpacity onPress={navigateToDashboard} style ={Styles.button}>
+               <TouchableOpacity onPress={navigateToDashboard} style ={Styles.buttonProfile}>
                  <Text style={{fontSize:25, color:'#FFF'}}>Navigate to Dashboard</Text>
                </TouchableOpacity>
             )}

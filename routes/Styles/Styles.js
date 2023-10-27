@@ -41,6 +41,16 @@ const Styles = StyleSheet.create({
         paddingTop: 20,
         color:"#FFFFFF"
     },
+    buttonProfile: {
+        marginTop: 50,
+        height: 70,
+        width: 250,
+        backgroundColor: '#22223B',
+        alignItems: 'center',
+        borderRadius: 50,
+        paddingTop: 20,
+        color:"#FFFFFF"
+    },
     buttonText: {
         fontSize: 22,
         fontWeight: 'bold',
