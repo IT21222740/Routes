@@ -42,7 +42,7 @@ const Styles = StyleSheet.create({
         color:"#FFFFFF"
     },
     buttonProfile: {
-        marginTop: 50,
+        marginTop: 10,
         height: 70,
         width: 250,
         backgroundColor: '#22223B',
