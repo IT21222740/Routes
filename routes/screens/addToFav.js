@@ -2,12 +2,16 @@ import { View, Text, FlatList, TextInput, StyleSheet, Pressable, ActivityIndicat
 import React, { useState, useEffect } from 'react';
 import { firebase } from '../config';
 import { FontAwesome, EvilIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const AddToFav = () => {
   const [bus, setBus] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const busRef = firebase.firestore().collection('bus');
+  const navigate=useNavigation()
+
+  const [goldStarItems, setGoldStarItems] = useState([]);
 
   useEffect(() => {
     const unsubscribe = busRef.onSnapshot((querySnapshot) => {
@@ -28,6 +32,23 @@ const AddToFav = () => {
 
     return () => unsubscribe();
   }, []);
+  
+  const toggleStar = (itemId) => {
+    // Find the item by ID and toggle the isStarred property
+    const updatedBus = bus.map((item) => {
+      if (item.id === itemId) {
+        return { ...item, isStarred: !item.isStarred };
+      }
+      return item;
+    });
+
+    setBus(updatedBus);
+
+    // Filter and update the gold-starred items
+    const starredItems = updatedBus.filter((item) => item.isStarred);
+    setGoldStarItems(starredItems);
+  };
+  
 
   const handleSearch = (text) => {
     setSearchText(text);
@@ -65,16 +86,9 @@ const AddToFav = () => {
     }
   };
 
-  const toggleStar = (itemId) => {
-    // Find the item by ID and toggle the isStarred property
-    const updatedBus = bus.map((item) => {
-      if (item.id === itemId) {
-        return { ...item, isStarred: !item.isStarred };
-      }
-      return item;
-    });
-
-    setBus(updatedBus);
+  const navigateToFavourites = () => {
+    // Navigate to Favourites and pass the goldStarItems as props
+    navigation.navigate('Favourites', { goldStarItems });
   };
 
   return (
@@ -114,6 +128,7 @@ const AddToFav = () => {
           )}
         />
       )}
+      
     </View>
   );
 };
