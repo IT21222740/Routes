@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { firebase } from '../config'; 
 import { useNavigation } from '@react-navigation/native';
 import {signOut} from '../services/FirebaseService'
+import Styles from "../Styles/Styles";
 
 const MyList = () => {
   const [userData, setUserData] = useState({});
@@ -47,7 +48,7 @@ const MyList = () => {
     <View>
       <ScrollView>
         <View style={{ padding: 10, width: '100%', backgroundColor: '#F2E9E4', height: 150}}></View>
-        <View style={{ alignItems: 'center', backgroundColor: '#F6F6F6'}}>
+        <View style={{ alignItems: 'center', backgroundColor: '#F6F6F6'}} >
           <TouchableOpacity>
             <Image source={require('../assets/avatar.jpg')} style={{ width: 140, height: 140, borderRadius: 100, marginTop: -70}} />
           </TouchableOpacity>
@@ -72,12 +73,17 @@ const MyList = () => {
         
         </View>
       </View>
-      
-
-          
+      {userData.customerType === 'Passenger' && (
+        <View>
+           <TouchableOpacity style= {Styles.button}>
+                 <Text style={{fontSize:25, color:'#FFF'}}>Share My experience</Text>
+            </TouchableOpacity>
+        </View>
+              
+      )}
           {userData.customerType === 'Driver' && (
                <TouchableOpacity onPress={navigateToDashboard}>
-                 <Text>Navigate to Dashboard</Text>
+                 <Text style={{fontSize:25, color:'#FFF'}}>Navigate to Dashboard</Text>
                </TouchableOpacity>
             )}
         </View>
