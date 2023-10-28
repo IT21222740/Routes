@@ -5,8 +5,8 @@ import Login from "./Login";
 import Registration from "./Registration";
 
 export{
-    Home,
     AddToFav,
+    Home,
     MyList,
     Login,
     Registration
