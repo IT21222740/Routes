@@ -1,7 +1,7 @@
-import { View, Text, FlatList, TextInput, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TextInput, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { firebase } from '../config';
-import { FontAwesome, EvilIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const AddToFav = () => {
@@ -9,8 +9,8 @@ const AddToFav = () => {
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const busRef = firebase.firestore().collection('bus');
-  const navigate=useNavigation()
-
+  const navigate = useNavigation();
+  const [fav, setFav] = useState([]);
   const [goldStarItems, setGoldStarItems] = useState([]);
 
   useEffect(() => {
@@ -23,32 +23,74 @@ const AddToFav = () => {
           BusNumber,
           From,
           To,
-          isStarred: false, // Added the isStarred property
+          isStarred: false,
         });
       });
       setBus(buses);
       setIsLoading(false);
     });
 
+    const favoritesRef = firebase.firestore().collection('favorites');
+    favoritesRef.onSnapshot((querySnapshot) => {
+      const favItems = [];
+      querySnapshot.forEach((doc) => {
+        const favData = doc.data();
+        favItems.push(favData);
+      });
+
+      // Update the local 'fav' state with the retrieved favorite items
+      setFav(favItems);
+    });
+
     return () => unsubscribe();
   }, []);
-  
+
   const toggleStar = (itemId) => {
-    // Find the item by ID and toggle the isStarred property
     const updatedBus = bus.map((item) => {
       if (item.id === itemId) {
-        return { ...item, isStarred: !item.isStarred };
+        const isStarred = !item.isStarred;
+        if (isStarred) {
+          setFav([...fav, item]);
+          addToFavoritesCollection(item);
+        } else {
+          setFav(fav.filter((favItem) => favItem.id !== item.id));
+          removeFromFavoritesCollection(item.id);
+        }
+        return { ...item, isStarred };
       }
       return item;
     });
 
     setBus(updatedBus);
 
-    // Filter and update the gold-starred items
     const starredItems = updatedBus.filter((item) => item.isStarred);
     setGoldStarItems(starredItems);
   };
-  
+
+  const addToFavoritesCollection = async (favData) => {
+    try {
+      const collectionRef = firebase.firestore().collection('favorites');
+      await collectionRef.add(favData);
+      console.log('Favorite added to the collection successfully.');
+    } catch (error) {
+      console.error('Error adding favorite to the collection: ', error);
+    }
+  };
+
+  const removeFromFavoritesCollection = async (itemId) => {
+    try {
+      const collectionRef = firebase.firestore().collection('favorites');
+      const docToDelete = collectionRef.where('id', '==', itemId);
+      docToDelete.get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.ref.delete();
+          console.log('Favorite removed from the collection successfully.');
+        });
+      });
+    } catch (error) {
+      console.error('Error removing favorite from the collection: ', error);
+    }
+  };
 
   const handleSearch = (text) => {
     setSearchText(text);
@@ -86,11 +128,6 @@ const AddToFav = () => {
     }
   };
 
-  const navigateToFavourites = () => {
-    // Navigate to Favourites and pass the goldStarItems as props
-    navigation.navigate('Favourites', { goldStarItems });
-  };
-
   return (
     <View style={{ marginTop: 40 }}>
       <View style={styles.searchBarContainer}>
@@ -102,7 +139,7 @@ const AddToFav = () => {
         />
         <FontAwesome name="search" size={20} color="black" style={styles.searchIcon} />
       </View>
-      {isLoading ? ( 
+      {isLoading ? (
         <ActivityIndicator size="large" color="gray" style={{ marginTop: 200 }} />
       ) : (
         <FlatList
@@ -115,10 +152,10 @@ const AddToFav = () => {
                 <Text style={styles.itemHeading}>{item.BusNumber}</Text>
                 <Text style={styles.FromTo}>{item.From}-{item.To}</Text>
                 <View style={styles.starAndVerticalLine}>
-                  <FontAwesome 
+                  <FontAwesome
                     name="star"
                     size={40}
-                    color={item.isStarred ? 'gold' : 'black'}
+                    color={fav.some((favItem) => favItem.id === item.id) ? 'gold' : 'black'}
                     onPress={() => toggleStar(item.id)}
                   />
                 </View>
@@ -128,7 +165,6 @@ const AddToFav = () => {
           )}
         />
       )}
-      
     </View>
   );
 };
@@ -161,9 +197,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   starAndVerticalLine: {
-    position:'absolute',
-    right:7,
-    paddingTop:4    
+    position: 'absolute',
+    right: 7,
+    paddingTop: 4,
   },
   verticalLine: {
     width: 1,
