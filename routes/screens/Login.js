@@ -43,7 +43,7 @@ const Login = () => {
             onChangeText={(password) => setPassword(password)}
             autoCapitalize="none"
             autoCorrect={false}
-            
+            secureTextEntry={true}
           />
         </View>
         {errorMessage && (
