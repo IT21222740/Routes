@@ -24,6 +24,18 @@ const screenOptions={
 const BottomTabNav=()=>{
     return(
         <Tab.Navigator screenOptions={screenOptions}>
+                            <Tab.Screen 
+                    name='AddToFav' 
+                    component={AddToFav}    
+                    options={{
+                        tabBarIcon:({focused})=>{
+                            return <Ionicons name={focused?"star":"star-outline"}
+                            size={30}
+                            color={focused? 'black':'gray'}/>
+                        }
+                    }}
+                />
+                
             <Tab.Screen 
                 name='Home' 
                 component={Home}    
@@ -34,17 +46,6 @@ const BottomTabNav=()=>{
                         color={focused? 'black':'gray'}/>
                     }
                 }}
-                />
-                <Tab.Screen 
-                    name='AddToFav' 
-                    component={AddToFav}    
-                    options={{
-                        tabBarIcon:({focused})=>{
-                            return <Ionicons name={focused?"star":"star-outline"}
-                            size={30}
-                            color={focused? 'black':'gray'}/>
-                        }
-                    }}
                 />
                 
                 <Tab.Screen 
