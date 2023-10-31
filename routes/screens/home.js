@@ -9,6 +9,7 @@ const HomeScreen = () => {
   const [isDrawerVisible, setDrawerVisible] = useState(false);
      // State to store the selected emergency level
   const [selectedEmergencyLevel, setSelectedEmergencyLevel] = useState(null);
+     // Animation for sliding the drawer in and out
   const slideAnimation = new Animated.Value(300);
 
   useEffect(() => {
