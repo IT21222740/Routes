@@ -1,6 +1,6 @@
 // Import the 'firebase' instance from your configuration.
 import { firebase } from '../config';
-
+//Database Connection
 /**
  * Fetches user data from the Firestore database based on the currently authenticated user's email.
  * @returns {Array} An array of user data objects or an empty array if there's no user data.
