@@ -13,6 +13,7 @@ const HomeScreen = () => {
   const slideAnimation = new Animated.Value(300);
 
   useEffect(() => {
+         // When the 'isDrawerVisible' state changes, animate the drawer's position
     if (isDrawerVisible) {
       Animated.timing(slideAnimation, {
         toValue: 120,
