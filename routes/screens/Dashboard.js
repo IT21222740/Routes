@@ -1,7 +1,7 @@
 import { View,Text } from "react-native";
 import React from "react";
 
-
+//header
 const Header = (props)=> {
     return(
         <View style = {{marginLeft:15}}>
