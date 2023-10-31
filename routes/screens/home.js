@@ -5,6 +5,7 @@ import CustomDrawer from './customDrawer';
 import { Entypo } from '@expo/vector-icons';
 
 const HomeScreen = () => {
+   // State to control the visibility of the drawer
   const [isDrawerVisible, setDrawerVisible] = useState(false);
   const [selectedEmergencyLevel, setSelectedEmergencyLevel] = useState(null);
   const slideAnimation = new Animated.Value(300);
